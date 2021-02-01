@@ -41,9 +41,35 @@ const jump = () => {
 	}, intervalTime);
 }
 
+const getBackground = () => {
+	return document.getElementsByClassName("background")[0];
+}
+
+const getGameOverMsg = () => {
+	return document.getElementsByClassName("game-over")[0];
+}
+
+const startGame = () => {
+	let background = getBackground();
+	let gameOverMsg = getGameOverMsg();
+	var cactuses = document.getElementsByClassName('cactus');
+
+	while(cactuses[0]) {
+			cactuses[0].parentNode.removeChild(cactuses[0]);
+	}
+
+	background.className = background.className.split(' ')[0] + " show";
+	gameOverMsg.className = gameOverMsg.className.split(' ')[0] + " hide";
+	isGameOver = false;
+	createCactus();
+}
+
 const endGame = () => {
+	let background = getBackground();
+	let gameOverMsg = getGameOverMsg();
+	background.className = background.className.split(' ')[0] + " hide";
+	gameOverMsg.className = gameOverMsg.className.split(' ')[0] + " show";
 	isGameOver = true;
-	document.body.innerHTML = '<h1 class="game-over">Fim de jogo</h1>';
 }
 
 const createCactus = () => {
@@ -74,5 +100,6 @@ const createCactus = () => {
 	setTimeout(createCactus, randomTime);
 }
 
-createCactus();
+startGame();
 document.addEventListener('keyup', handleKeyUp);
+document.getElementById("restartButton").addEventListener("click", startGame, false);
